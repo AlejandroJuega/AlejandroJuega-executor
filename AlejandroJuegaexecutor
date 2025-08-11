@@ -1,47 +1,51 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AlejandroJuega/AlejandroJuegaexecutor/main/NOMBRE_DEL_SCRIPT.lua"))()
-ocal keyCorrecta = "key1243" -- Clave correcta
+local validKeys = {
+    ["abc123"] = true,
+    ["key456"] = true,
+    ["key789"] = true,
+    -- Agrega más claves válidas aquí
+}
 
--- Crear GUI principal
+local githubScriptUrl = "https://raw.githubusercontent.com/debunked69/Solixreworkkeysystem/refs/heads/main/solix%20new%20keyui.lua"
+
 local gui = Instance.new("ScreenGui", game.CoreGui)
 gui.Name = "AlejandroJuegaExecutor"
 
--- Ventana de verificación
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 500, 0, 300)
-frame.Position = UDim2.new(0.5, -250, 0.5, -150)
-frame.BackgroundColor3 = Color3.fromRGB(135, 206, 235) -- Azul cielo
-frame.BorderSizePixel = 2
-frame.Parent = gui
+-- Ventana principal (login)
+local loginFrame = Instance.new("Frame")
+loginFrame.Size = UDim2.new(0, 500, 0, 300)
+loginFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
+loginFrame.BackgroundColor3 = Color3.fromRGB(135, 206, 235)
+loginFrame.BorderSizePixel = 2
+loginFrame.Parent = gui
 
--- Título
-local title = Instance.new("TextLabel", frame)
+local title = Instance.new("TextLabel", loginFrame)
 title.Size = UDim2.new(1, 0, 0, 40)
 title.BackgroundTransparency = 1
 title.Text = "AlejandroJuega Executor"
 title.Font = Enum.Font.SourceSansBold
 title.TextSize = 24
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextColor3 = Color3.new(1,1,1)
 title.TextStrokeTransparency = 0
-title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+title.TextStrokeColor3 = Color3.new(0,0,0)
 
--- Caja de clave
-local keyBox = Instance.new("TextBox", frame)
+local keyBox = Instance.new("TextBox", loginFrame)
 keyBox.Size = UDim2.new(0.6, 0, 0, 30)
 keyBox.Position = UDim2.new(0.2, 0, 0.2, 0)
-keyBox.PlaceholderText = keyCorrecta
+keyBox.PlaceholderText = "Ejemplo: key1243"
 keyBox.Font = Enum.Font.SourceSans
 keyBox.TextSize = 18
 keyBox.Text = ""
 
--- Botón Get Key
-local getKeyBtn = Instance.new("TextButton", frame)
+local getKeyBtn = Instance.new("TextButton", loginFrame)
 getKeyBtn.Size = UDim2.new(0.4, 0, 0, 30)
 getKeyBtn.Position = UDim2.new(0.05, 0, 0.35, 0)
 getKeyBtn.Text = "Get Key"
 getKeyBtn.Font = Enum.Font.SourceSansBold
 getKeyBtn.TextSize = 18
 getKeyBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+
 getKeyBtn.MouseButton1Click:Connect(function()
+    -- Copia el link al portapapeles y muestra notificación
     setclipboard("https://neoxsoftworks.eu/")
     game.StarterGui:SetCore("SendNotification", {
         Title = "Get Key",
@@ -50,8 +54,7 @@ getKeyBtn.MouseButton1Click:Connect(function()
     })
 end)
 
--- Botón Verify Key
-local verifyBtn = Instance.new("TextButton", frame)
+local verifyBtn = Instance.new("TextButton", loginFrame)
 verifyBtn.Size = UDim2.new(0.4, 0, 0, 30)
 verifyBtn.Position = UDim2.new(0.55, 0, 0.35, 0)
 verifyBtn.Text = "Verify Key"
@@ -59,10 +62,10 @@ verifyBtn.Font = Enum.Font.SourceSansBold
 verifyBtn.TextSize = 18
 verifyBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
 
--- Menú principal (oculto al inicio)
+-- Menu principal, oculto al inicio
 local menu = Instance.new("Frame", gui)
 menu.Size = UDim2.new(0, 500, 0, 300)
-menu.Position = UDim2.new(0.7, -250, 0.5, -150) -- Centro a la derecha
+menu.Position = UDim2.new(0.7, -250, 0.5, -150)
 menu.BackgroundColor3 = Color3.fromRGB(135, 206, 235)
 menu.BorderSizePixel = 2
 menu.Visible = false
@@ -74,7 +77,6 @@ menuTitle.Font = Enum.Font.SourceSansBold
 menuTitle.TextSize = 20
 menuTitle.BackgroundTransparency = 1
 
--- Bloc de notas
 local note = Instance.new("TextBox", menu)
 note.Size = UDim2.new(0.9, 0, 0.5, 0)
 note.Position = UDim2.new(0.05, 0, 0.15, 0)
@@ -86,7 +88,6 @@ note.TextWrapped = true
 note.Font = Enum.Font.SourceSans
 note.TextSize = 18
 
--- Botón Execute Clipboard
 local execClipboardBtn = Instance.new("TextButton", menu)
 execClipboardBtn.Size = UDim2.new(0.4, 0, 0, 30)
 execClipboardBtn.Position = UDim2.new(0.05, 0, 0.75, 0)
@@ -94,20 +95,7 @@ execClipboardBtn.Text = "Execute Clipboard"
 execClipboardBtn.Font = Enum.Font.SourceSansBold
 execClipboardBtn.TextSize = 18
 execClipboardBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
-execClipboardBtn.MouseButton1Click:Connect(function()
-    local scriptFromClipboard = getclipboard()
-    if scriptFromClipboard and scriptFromClipboard ~= "" then
-        loadstring(scriptFromClipboard)()
-    else
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Error",
-            Text = "Portapapeles vacío",
-            Duration = 3
-        })
-    end
-end)
 
--- Botón Execute
 local execBtn = Instance.new("TextButton", menu)
 execBtn.Size = UDim2.new(0.4, 0, 0, 30)
 execBtn.Position = UDim2.new(0.55, 0, 0.75, 0)
@@ -115,14 +103,26 @@ execBtn.Text = "Execute"
 execBtn.Font = Enum.Font.SourceSansBold
 execBtn.TextSize = 18
 execBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
-execBtn.MouseButton1Click:Connect(function()
-    loadstring(note.Text)()
-end)
 
--- Lógica de verificación de clave
+-- Función para ejecutar script desde URL
+local function ejecutarScript(url)
+    local ok, err = pcall(function()
+        local s = game:HttpGet(url)
+        loadstring(s)()
+    end)
+    if not ok then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Error ejecutando script: "..err,
+            Duration = 3
+        })
+    end
+end
+
 verifyBtn.MouseButton1Click:Connect(function()
-    if keyBox.Text == keyCorrecta then
-        frame.Visible = false
+    local key = keyBox.Text
+    if validKeys[key] then
+        loginFrame.Visible = false
         menu.Visible = true
     else
         game.StarterGui:SetCore("SendNotification", {
@@ -132,3 +132,118 @@ verifyBtn.MouseButton1Click:Connect(function()
         })
     end
 end)
+
+execClipboardBtn.MouseButton1Click:Connect(function()
+    local clip = getclipboard()
+    if clip and clip ~= "" then
+        local ok, err = pcall(function()
+            loadstring(clip)()
+        end)
+        if not ok then
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Error",
+                Text = "Error ejecutando script desde portapapeles: "..err,
+                Duration = 3
+            })
+        end
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Portapapeles vacío",
+            Duration = 3
+        })
+    end
+end)
+
+execBtn.MouseButton1Click:Connect(function()
+    ejecutarScript(githubScriptUrl)
+end)
+Si quieres, puedo ayudarte a modificar la lista validKeys o agregar validación remota en el futuro.
+¿Quieres que te prepare eso?
+
+
+
+
+
+
+
+
+
+Preguntar a ChatGPT
+Tú dijiste:
+si
+
+
+ChatGPT Plus
+Perfecto, te preparo dos cosas:
+
+Lista de claves editable localmente para que puedas agregar o quitar fácilmente.
+
+Validación remota vía API web para que el script consulte una URL con la clave y reciba si es válida o no, más seguro y fácil de gestionar sin tocar el script.
+
+1. Lista local editable
+Ya tienes esta parte, por ejemplo:
+
+lua
+Copiar
+Editar
+local validKeys = {
+    ["abc123"] = true,
+    ["key456"] = true,
+    ["key789"] = true,
+    -- Agrega o quita claves aquí
+}
+Solo añade o quita claves de esta tabla para controlar accesos.
+
+2. Validación remota (ejemplo con petición HTTP)
+Aquí un ejemplo simple para validar la clave con una web que te devuelva "true" o "false" (o JSON), asumiendo que tienes una API en algún servidor que haga esto:
+
+lua
+Copiar
+Editar
+local function validarClaveRemota(clave)
+    local url = "https://tuservidor.com/api/validarClave?key="..clave
+    local success, response = pcall(function()
+        return game:HttpGet(url)
+    end)
+    if success then
+        return response == "true"
+    else
+        return false
+    end
+end
+
+verifyBtn.MouseButton1Click:Connect(function()
+    local key = keyBox.Text
+    if validarClaveRemota(key) then
+        loginFrame.Visible = false
+        menu.Visible = true
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Clave incorrecta",
+            Duration = 3
+        })
+    end
+end)
+Notas:
+
+Debes tener un servidor que responda en esa URL con "true" si la clave es válida o "false" si no.
+
+Puedes hacer la API en cualquier lenguaje, solo debe recibir el parámetro y devolver esa respuesta sencilla.
+
+Si quieres, puedo ayudarte a:
+
+Crear un ejemplo de servidor básico para validar claves (por ejemplo en Node.js).
+
+Integrar esa validación en tu script y dejarlo listo para usar.
+
+¿Quieres que te prepare ese ejemplo de servidor y te ayude a integrarlo?
+
+
+
+
+
+
+
+
