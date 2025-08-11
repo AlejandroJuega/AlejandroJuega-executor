@@ -1,0 +1,134 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AlejandroJuega/AlejandroJuegaexecutor/main/NOMBRE_DEL_SCRIPT.lua"))()
+ocal keyCorrecta = "key1243" -- Clave correcta
+
+-- Crear GUI principal
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "AlejandroJuegaExecutor"
+
+-- Ventana de verificación
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 500, 0, 300)
+frame.Position = UDim2.new(0.5, -250, 0.5, -150)
+frame.BackgroundColor3 = Color3.fromRGB(135, 206, 235) -- Azul cielo
+frame.BorderSizePixel = 2
+frame.Parent = gui
+
+-- Título
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 40)
+title.BackgroundTransparency = 1
+title.Text = "AlejandroJuega Executor"
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 24
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextStrokeTransparency = 0
+title.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+
+-- Caja de clave
+local keyBox = Instance.new("TextBox", frame)
+keyBox.Size = UDim2.new(0.6, 0, 0, 30)
+keyBox.Position = UDim2.new(0.2, 0, 0.2, 0)
+keyBox.PlaceholderText = keyCorrecta
+keyBox.Font = Enum.Font.SourceSans
+keyBox.TextSize = 18
+keyBox.Text = ""
+
+-- Botón Get Key
+local getKeyBtn = Instance.new("TextButton", frame)
+getKeyBtn.Size = UDim2.new(0.4, 0, 0, 30)
+getKeyBtn.Position = UDim2.new(0.05, 0, 0.35, 0)
+getKeyBtn.Text = "Get Key"
+getKeyBtn.Font = Enum.Font.SourceSansBold
+getKeyBtn.TextSize = 18
+getKeyBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+getKeyBtn.MouseButton1Click:Connect(function()
+    setclipboard("https://neoxsoftworks.eu/")
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Get Key",
+        Text = "Link copiado al portapapeles",
+        Duration = 3
+    })
+end)
+
+-- Botón Verify Key
+local verifyBtn = Instance.new("TextButton", frame)
+verifyBtn.Size = UDim2.new(0.4, 0, 0, 30)
+verifyBtn.Position = UDim2.new(0.55, 0, 0.35, 0)
+verifyBtn.Text = "Verify Key"
+verifyBtn.Font = Enum.Font.SourceSansBold
+verifyBtn.TextSize = 18
+verifyBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+
+-- Menú principal (oculto al inicio)
+local menu = Instance.new("Frame", gui)
+menu.Size = UDim2.new(0, 500, 0, 300)
+menu.Position = UDim2.new(0.7, -250, 0.5, -150) -- Centro a la derecha
+menu.BackgroundColor3 = Color3.fromRGB(135, 206, 235)
+menu.BorderSizePixel = 2
+menu.Visible = false
+
+local menuTitle = Instance.new("TextLabel", menu)
+menuTitle.Size = UDim2.new(1, 0, 0, 30)
+menuTitle.Text = "Menu"
+menuTitle.Font = Enum.Font.SourceSansBold
+menuTitle.TextSize = 20
+menuTitle.BackgroundTransparency = 1
+
+-- Bloc de notas
+local note = Instance.new("TextBox", menu)
+note.Size = UDim2.new(0.9, 0, 0.5, 0)
+note.Position = UDim2.new(0.05, 0, 0.15, 0)
+note.BackgroundColor3 = Color3.fromRGB(135, 206, 235)
+note.Text = "Thank you for using my executor"
+note.ClearTextOnFocus = false
+note.TextEditable = false
+note.TextWrapped = true
+note.Font = Enum.Font.SourceSans
+note.TextSize = 18
+
+-- Botón Execute Clipboard
+local execClipboardBtn = Instance.new("TextButton", menu)
+execClipboardBtn.Size = UDim2.new(0.4, 0, 0, 30)
+execClipboardBtn.Position = UDim2.new(0.05, 0, 0.75, 0)
+execClipboardBtn.Text = "Execute Clipboard"
+execClipboardBtn.Font = Enum.Font.SourceSansBold
+execClipboardBtn.TextSize = 18
+execClipboardBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+execClipboardBtn.MouseButton1Click:Connect(function()
+    local scriptFromClipboard = getclipboard()
+    if scriptFromClipboard and scriptFromClipboard ~= "" then
+        loadstring(scriptFromClipboard)()
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Portapapeles vacío",
+            Duration = 3
+        })
+    end
+end)
+
+-- Botón Execute
+local execBtn = Instance.new("TextButton", menu)
+execBtn.Size = UDim2.new(0.4, 0, 0, 30)
+execBtn.Position = UDim2.new(0.55, 0, 0.75, 0)
+execBtn.Text = "Execute"
+execBtn.Font = Enum.Font.SourceSansBold
+execBtn.TextSize = 18
+execBtn.BackgroundColor3 = Color3.fromRGB(100, 180, 255)
+execBtn.MouseButton1Click:Connect(function()
+    loadstring(note.Text)()
+end)
+
+-- Lógica de verificación de clave
+verifyBtn.MouseButton1Click:Connect(function()
+    if keyBox.Text == keyCorrecta then
+        frame.Visible = false
+        menu.Visible = true
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Clave incorrecta",
+            Duration = 3
+        })
+    end
+end)
